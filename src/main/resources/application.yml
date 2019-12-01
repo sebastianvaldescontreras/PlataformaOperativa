@@ -1,0 +1,86 @@
+#Configuracion Postgres
+spring:
+  port: 8080
+  datasource:
+    platform: postgres
+    driverClassName: org.postgresql.Driver
+    url: 'jdbc:postgresql://localhost:5432/plataformaOperativa'
+    username: postgres
+    password: Cuidate133
+    tomcat:
+      max-wait: 20000
+      max-active: 50
+      max-idle: 20
+      min-idle: 15
+      initial-size: 15
+
+#Configuracion Swagger
+api.version: 1.0
+swagger:
+  enabled: true
+  title: 'Plataforma Operativa API'
+  description: 'Funciones para la plataforma Operativa.'
+  useDefaultResponseMessages: false
+  enableUrlTemplating: false
+  deepLinking: true
+  defaultModelsExpandDepth: 1
+  defaultModelExpandDepth: 1
+  displayOperationId: false
+  displayRequestDuration: false
+  filter: false
+  maxDisplayedTags: 0
+  showExtensions : false
+  basePackage: 'com.plataforma.application.controller'
+
+
+#Consultas a Base de Datos
+articulo:
+  select: 'select id, idcategoria, codigo, nombre, precio, stock, descripcion, imagen, estado, fechaactualizacion, fechacreacion from articulo where id = ?'
+  selectAll: 'select id, idcategoria, codigo, nombre, precio, stock, descripcion, imagen, estado, fechaactualizacion, fechacreacion from articulo'
+  insert: 'insert into articulo(idcategoria, codigo, nombre, precio, stock, descripcion, imagen, estado, fechaactualizacion, fechacreacion) values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+  update: 'update articulo set idcategoria=?, codigo=?, nombre=?, precio=?, stock=?, descripcion=?, imagen=?, estado=?, fechaactualizacion=? where id = ?'
+  delete: 'delete from articulo where id = ?'
+articuloproducto:
+  select: 'select id, idarticulo, idproducto, estado, fechaactualizacion, fechacreacion from articuloproducto where id = ?'
+  selectAll: 'select id, idarticulo, idproducto, estado, fechaactualizacion, fechacreacion from articuloproducto'
+  insert: 'insert into articuloproducto(idarticulo, idproducto, estado, fechaactualizacion, fechacreacion) values (?, ?, ?, ?, ?)'
+  update: 'update articuloproducto set idarticulo=?, idproducto=?, estado=?, fechaactualizacion=? where id =?'
+  delete: 'delete from articuloproducto where id = ?'
+categoria:
+  select: 'select id, nombre, descripcion, estado, fechaactualizacion, fechacreacion from categoria where id = ?'
+  selectAll: 'select id, nombre, descripcion, estado, fechaactualizacion, fechacreacion from categoria'
+  insert: 'insert into categoria(nombre, descripcion, estado, fechaactualizacion, fechacreacion) values (?, ?, ?, ?, ?)'
+  update: 'update categoria set nombre=?, descripcion=?, estado=?, fechaactualizacion=? where id = ?'
+  delete: 'delete from categoria where id = ?'
+comprobante:
+  select: 'select id, tipo, serie, numero, estado, fechaactualizacion, fechacreacion from comprobante where id = ?'
+  selectAll: 'select id, tipo, serie, numero, estado, fechaactualizacion, fechacreacion from comprobante'
+  insert: 'insert into comprobante(tipo, serie, numero, estado, fechaactualizacion, fechacreacion) values (?, ?, ?, ?, ?, ?)'
+  update: 'update comprobante set tipo=?, serie=?, numero=?, estado=?, fechaactualizacion=? where id=?'
+  delete: 'delete from comprobante where id = ?'
+plataformacategoria:
+  select: 'select id, idplataforma, idcategoria, estado, fechaactualizacion, fechacreacion from plataformacategoria where id = ?'
+  selectAll: 'select id, idplataforma, idcategoria, estado, fechaactualizacion, fechacreacion from plataformacategoria'
+  insert: 'insert into plataformacategoria(idplataforma, idcategoria, estado, fechaactualizacion, fechacreacion) values (?, ?, ?, ?, ?)'
+  update: 'update plataformacategoria set idplataforma=?, idcategoria=?, estado=?, fechaactualizacion=? where id = ?'
+  delete: 'delete from plataformacategoria where id = ?'
+plataforma:
+  select: 'select id, nombre, descripcion, estado, fechaactualizacion, fechacreacion from plataforma where id = ?'
+  selectAll: 'select id, nombre, descripcion, estado, fechaactualizacion, fechacreacion from plataforma'
+  insert: 'insert into plataforma(nombre, descripcion, estado, fechaactualizacion, fechacreacion) values (?, ?, ?, ?, ?)'
+  update: 'update plataforma set nombre=?, descripcion=?, estado=?, fechaactualizacion=? where id = ?'
+  delete: 'delete from plataforma where id = ?'
+producto:
+  select: 'select id, codigo, nombre, descripcion, precio, estado, fechaactualizacion, fechacreacion from producto where id = ?'
+  selectAll: 'select id, codigo, nombre, descripcion, precio, estado, fechaactualizacion, fechacreacion from producto'
+  insert: 'insert into producto(codigo, nombre, descripcion, precio, estado, fechaactualizacion, fechacreacion) values (?, ?, ?, ?, ?, ?, ?)'
+  update: 'update producto set codigo=?, nombre=?, descripcion=?, precio=?, estado=?, fechaactualizacion=? where id = ?'
+  delete: 'delete from producto where id = ?'
+rol:
+  select: 'select id, nombre, descripcion, estado, fechaactualizacion, fechacreacion from rol where id = ?'
+  selectAll: 'select id, nombre, descripcion, estado, fechaactualizacion, fechacreacion from rol'
+  insert: 'insert into rol(nombre, descripcion, estado, fechaactualizacion, fechacreacion) values (?, ?, ?, ?, ?)'
+  update: 'update rol set nombre=?, descripcion=?, estado=?, fechaactualizacion=? where id = ?'
+  delete: 'delete from rol where id = ?'
+
+
