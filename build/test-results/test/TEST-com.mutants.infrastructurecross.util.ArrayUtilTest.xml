@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.mutants.infrastructurecross.util.ArrayUtilTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2019-11-17T02:03:25" hostname="DESKTOP-LSPCLIO" time="17.263">
-  <properties/>
-  <testcase name="shouldReturnArrayOrderVertical" classname="com.mutants.infrastructurecross.util.ArrayUtilTest" time="0.012"/>
-  <testcase name="shouldReturnArrayOrderDiagonal" classname="com.mutants.infrastructurecross.util.ArrayUtilTest" time="17.25"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
