@@ -6,6 +6,7 @@ import com.plataforma.infrastructure.repository.IArticuloProductoRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -15,20 +16,21 @@ import java.util.List;
 @Repository
 @Transactional
 @Slf4j
+@PropertySource("classpath:query.yml")
 public class ArticuloProductoRepository implements IArticuloProductoRepository {
-    @Value("${articuloproducto.select}")
+    @Value("${selectArticuloProducto}")
     private String select;
 
-    @Value("${articuloproducto.selectAll}")
+    @Value("${selectAllArticuloProducto}")
     private String selectAll;
 
-    @Value("${articuloproducto.insert}")
+    @Value("${insertArticuloProducto}")
     private String insert;
 
-    @Value("${articuloproducto.update}")
+    @Value("${updateArticuloProducto}")
     private String update;
 
-    @Value("${articuloproducto.delete}")
+    @Value("${deleteArticuloProducto}")
     private String delete;
 
     @Autowired

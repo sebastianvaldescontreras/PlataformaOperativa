@@ -6,6 +6,7 @@ import com.plataforma.infrastructure.repository.IRolRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -15,24 +16,25 @@ import java.util.List;
 @Repository
 @Transactional
 @Slf4j
+@PropertySource("classpath:query.yml")
 public class RolRepository implements IRolRepository{
-    @Value("${rol.select}")
-    private String select;
-
-    @Value("${rol.selectAll}")
-    private String selectAll;
-
-    @Value("${rol.insert}")
-    private String insert;
-
-    @Value("${rol.update}")
-    private String update;
-
-    @Value("${rol.delete}")
-    private String delete;
-
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @Value("${selectRol}")
+    private String select;
+
+    @Value("${selectAllRol}")
+    private String selectAll;
+
+    @Value("${insertRol}")
+    private String insert;
+
+    @Value("${updateRol}")
+    private String update;
+
+    @Value("${deleteRol}")
+    private String delete;
 
     @Override
     public List<Rol> selectRol(Long id) {

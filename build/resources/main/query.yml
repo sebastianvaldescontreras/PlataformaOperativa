@@ -1,0 +1,77 @@
+
+ArticuloRepository:
+  selectArticulo: select id, idcategoria, codigo, nombre, precio, stock, descripcion, imagen, estado, fechaactualizacion, fechacreacion from articulo where id = ?
+  selectAllArticulo: select id, idcategoria, codigo, nombre, precio, stock, descripcion, imagen, estado, fechaactualizacion, fechacreacion from articulo
+  insertArticulo: insert into articulo(idcategoria, codigo, nombre, precio, stock, descripcion, imagen, estado, fechaactualizacion, fechacreacion) values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  updateArticulo: update articulo set idcategoria=?, codigo=?, nombre=?, precio=?, stock=?, descripcion=?, imagen=?, estado=?, fechaactualizacion=? where id = ?
+  deleteArticulo: delete from articulo where id = ?
+
+ArticuloProductoRepository:
+  selectArticuloProducto: select id, idarticulo, idproducto, estado, fechaactualizacion, fechacreacion from articuloproducto where id = ?
+  selectAllArticuloProducto: select id, idarticulo, idproducto, estado, fechaactualizacion, fechacreacion from articuloproducto
+  insertArticuloProducto: insert into articuloproducto(idarticulo, idproducto, estado, fechaactualizacion, fechacreacion) values (?, ?, ?, ?, ?)
+  updateArticuloProducto: update articuloproducto set idarticulo=?, idproducto=?, estado=?, fechaactualizacion=? where id =?
+  deleteArticuloProducto: delete from articuloproducto where id = ?
+
+CategoriaRepository:
+  selectCategoria: select id, nombre, descripcion, estado, fechaactualizacion, fechacreacion from categoria where id = ?
+  selectAllCategoria: select id, nombre, descripcion, estado, fechaactualizacion, fechacreacion from categoria
+  insertCategoria: insert into categoria(nombre, descripcion, estado, fechaactualizacion, fechacreacion) values (?, ?, ?, ?, ?)
+  updateCategoria: update categoria set nombre=?, descripcion=?, estado=?, fechaactualizacion=? where id = ?
+  deleteCategoria: delete from categoria where id = ?
+
+ComprobanteRepository:
+  selectComprobante: select id, tipo, serie, numero, estado, fechaactualizacion, fechacreacion from comprobante where id = ?
+  selectAllComprobante: select id, tipo, serie, numero, estado, fechaactualizacion, fechacreacion from comprobante
+  insertComprobante: insert into comprobante(tipo, serie, numero, estado, fechaactualizacion, fechacreacion) values (?, ?, ?, ?, ?, ?)
+  updateComprobante: update comprobante set tipo=?, serie=?, numero=?, estado=?, fechaactualizacion=? where id=?
+  deleteComprobante: delete from comprobante where id = ?
+
+PlataformaCategoriaRepository:
+  selectPlataformaCategoria: select id, idplataforma, idcategoria, estado, fechaactualizacion, fechacreacion from plataformacategoria where id = ?
+  selectAllPlataformaCategoria: select id, idplataforma, idcategoria, estado, fechaactualizacion, fechacreacion from plataformacategoria
+  insertPlataformaCategoria: insert into plataformacategoria(idplataforma, idcategoria, estado, fechaactualizacion, fechacreacion) values (?, ?, ?, ?, ?)
+  updatePlataformaCategoria: update plataformacategoria set idplataforma=?, idcategoria=?, estado=?, fechaactualizacion=? where id = ?
+  deletePlataformaCategoria: delete from plataformacategoria where id = ?
+
+PlataformaRepository:
+  selectPlataforma: select id, nombre, descripcion, estado, fechaactualizacion, fechacreacion from plataforma where id = ?
+  selectAllPlataforma: select id, nombre, descripcion, estado, fechaactualizacion, fechacreacion from plataforma
+  insertPlataforma: insert into plataforma(nombre, descripcion, estado, fechaactualizacion, fechacreacion) values (?, ?, ?, ?, ?)
+  updatePlataforma: update plataforma set nombre=?, descripcion=?, estado=?, fechaactualizacion=? where id = ?
+  deletePlataforma: delete from plataforma where id = ?
+
+ProductoRepository:
+  selectProducto: select id, codigo, nombre, descripcion, precio, estado, fechaactualizacion, fechacreacion from producto where id = ?
+  selectAllProducto: select id, codigo, nombre, descripcion, precio, estado, fechaactualizacion, fechacreacion from producto
+  insertProducto: insert into producto(codigo, nombre, descripcion, precio, estado, fechaactualizacion, fechacreacion) values (?, ?, ?, ?, ?, ?, ?)
+  updateProducto: update producto set codigo=?, nombre=?, descripcion=?, precio=?, estado=?, fechaactualizacion=? where id = ?
+  deleteProducto: delete from producto where id = ?
+
+RolRepository:
+  selectRol: select id, nombre, descripcion, estado, fechaactualizacion, fechacreacion from rol where id = ?
+  selectAllRol: select id, nombre, descripcion, estado, fechaactualizacion, fechacreacion from rol
+  insertRol: insert into rol(nombre, descripcion, estado, fechaactualizacion, fechacreacion) values (?, ?, ?, ?, ?)
+  updateRol: update rol set nombre=?, descripcion=?, estado=?, fechaactualizacion=? where id = ?
+  deleteRol: delete from rol where id = ?
+
+UsuarioRepository:
+  selectUsuario: select id, idrol, tipodocumento, numerodocumento, nombre, apellido, direccion, telefono, email, clave, estado, fechacreacion, fechaactualizacion from usuario where id = ?
+  selectAllUsuario: select id, idrol, tipodocumento, numerodocumento, nombre, apellido, direccion, telefono, email, clave, estado, fechacreacion, fechaactualizacion from usuario
+  insertUsuario: insert into usuario(idrol, tipodocumento, numerodocumento, nombre, apellido, direccion, telefono, email, clave, estado, fechaactualizacion, fechacreacion) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  updateUsuario: update usuario set idrol=?, tipodocumento=?, numerodocumento=?, nombre=?, apellido=?, direccion=?, telefono=?, email=?, clave=?, estado=?, fechaactualizacion=? where id = ?
+  deleteUsuario: delete from usuario where id = ?
+
+VentaRepository:
+  selectVenta: select id, idusuario, idcomprobante, impuesto, total, estado, fechaactualizacion, fechacreacion from venta where id = ?
+  selectAllVenta: select id, idusuario, idcomprobante, impuesto, total, estado, fechaactualizacion, fechacreacion from venta
+  insertVenta: insert into venta(idusuario, idcomprobante, impuesto, total, estado, fechaactualizacion, fechacreacion) values (?, ?, ?, ?, ?, ?, ?)
+  updateVenta: update venta set idusuario=?, idcomprobante=?, impuesto=?, total=?, estado=?, fechaactualizacion=? where id = ?
+  deleteVenta: delete from venta where id = ?
+
+VentaProductoRepository:
+  selectVentaProducto: select id, idproducto, idventa, cantidad, precio, descuento, estado, fechaactualizacion, fechacreacion from ventaproducto where id = ?
+  selectAllVentaProducto: select id, idproducto, idventa, cantidad, precio, descuento, estado, fechaactualizacion, fechacreacion from ventaproducto
+  insertVentaProducto: insert into ventaproducto(idproducto, idventa, cantidad, precio, descuento, estado, fechaactualizacion, fechacreacion) values (?, ?, ?, ?, ?, ?, ?, ?)
+  updateVentaProducto: update ventaproducto set idproducto=?, idventa=?, cantidad=?, precio=?, descuento=?, estado=?, fechaactualizacion=? where id = ?
+  deleteVentaProducto: delete from ventaproducto where id = ?

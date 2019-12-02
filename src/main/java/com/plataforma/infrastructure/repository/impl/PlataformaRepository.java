@@ -6,6 +6,7 @@ import com.plataforma.infrastructure.repository.IPlataformaRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,25 +16,25 @@ import java.util.List;
 @Repository
 @Transactional
 @Slf4j
+@PropertySource("classpath:query.yml")
 public class PlataformaRepository implements IPlataformaRepository {
-
-    @Value("${plataforma.select}")
-    private String select;
-
-    @Value("${plataforma.selectAll}")
-    private String selectAll;
-
-    @Value("${plataforma.insert}")
-    private String insert;
-
-    @Value("${plataforma.update}")
-    private String update;
-
-    @Value("${plataforma.delete}")
-    private String delete;
-
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @Value("${selectPlataforma}")
+    private String select;
+
+    @Value("${selectAllPlataforma}")
+    private String selectAll;
+
+    @Value("${insertPlataforma}")
+    private String insert;
+
+    @Value("${updatePlataforma}")
+    private String update;
+
+    @Value("${deletePlataforma}")
+    private String delete;
 
     @Override
     public List<Plataforma> selectPlataforma(Long id) {

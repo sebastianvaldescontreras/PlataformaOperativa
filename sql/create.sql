@@ -107,8 +107,8 @@ create table usuario(
     email text not null,
     clave text not null,
     estado boolean not null,
-    fechacreacion timestamp not null,
     fechaactualizacion timestamp not null,
+    fechacreacion timestamp not null,
     foreign key (idrol) references rol(id)
 );
 

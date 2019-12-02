@@ -6,6 +6,7 @@ import com.plataforma.infrastructure.repository.IPlataformaCategoriaRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -15,24 +16,25 @@ import java.util.List;
 @Repository
 @Transactional
 @Slf4j
+@PropertySource("classpath:query.yml")
 public class PlataformaCategoriaRepository implements IPlataformaCategoriaRepository{
-    @Value("${plataformacategoria.select}")
-    private String select;
-
-    @Value("${plataformacategoria.selectAll}")
-    private String selectAll;
-
-    @Value("${plataformacategoria.insert}")
-    private String insert;
-
-    @Value("${plataformacategoria.update}")
-    private String update;
-
-    @Value("${plataformacategoria.delete}")
-    private String delete;
-
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @Value("${selectPlataformaCategoria}")
+    private String select;
+
+    @Value("${selectAllPlataformaCategoria}")
+    private String selectAll;
+
+    @Value("${insertPlataformaCategoria}")
+    private String insert;
+
+    @Value("${updatePlataformaCategoria}")
+    private String update;
+
+    @Value("${deletePlataformaCategoria}")
+    private String delete;
 
     @Override
     public List<PlataformaCategoria> selectPlataformaCategoria(Long id) {

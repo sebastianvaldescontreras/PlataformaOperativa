@@ -6,6 +6,7 @@ import com.plataforma.infrastructure.repository.IComprobanteRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -15,24 +16,25 @@ import java.util.List;
 @Repository
 @Transactional
 @Slf4j
+@PropertySource("classpath:query.yml")
 public class ComprobanteRepository implements IComprobanteRepository {
-    @Value("${comprobante.select}")
-    private String select;
-
-    @Value("${comprobante.selectAll}")
-    private String selectAll;
-
-    @Value("${comprobante.insert}")
-    private String insert;
-
-    @Value("${comprobante.update}")
-    private String update;
-
-    @Value("${comprobante.delete}")
-    private String delete;
-
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @Value("${selectComprobante}")
+    private String select;
+
+    @Value("${selectAllComprobante}")
+    private String selectAll;
+
+    @Value("${insertComprobante}")
+    private String insert;
+
+    @Value("${updateComprobante}")
+    private String update;
+
+    @Value("${deleteComprobante}")
+    private String delete;
 
     @Override
     public List<Comprobante> selectComprobante(Long id) {

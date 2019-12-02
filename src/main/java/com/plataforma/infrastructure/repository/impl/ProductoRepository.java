@@ -6,6 +6,7 @@ import com.plataforma.infrastructure.repository.IProductoRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -15,24 +16,25 @@ import java.util.List;
 @Repository
 @Transactional
 @Slf4j
+@PropertySource("classpath:query.yml")
 public class ProductoRepository implements IProductoRepository{
-    @Value("${producto.select}")
-    private String select;
-
-    @Value("${producto.selectAll}")
-    private String selectAll;
-
-    @Value("${producto.insert}")
-    private String insert;
-
-    @Value("${producto.update}")
-    private String update;
-
-    @Value("${producto.delete}")
-    private String delete;
-
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @Value("${selectProducto}")
+    private String select;
+
+    @Value("${selectAllProducto}")
+    private String selectAll;
+
+    @Value("${insertProducto}")
+    private String insert;
+
+    @Value("${updateProducto}")
+    private String update;
+
+    @Value("${deleteProducto}")
+    private String delete;
 
     @Override
     public List<Producto> selectProducto(Long id) {
