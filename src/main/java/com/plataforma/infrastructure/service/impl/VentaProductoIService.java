@@ -1,8 +1,6 @@
 package com.plataforma.infrastructure.service.impl;
 
-import com.plataforma.application.vo.venta.VentaVo;
 import com.plataforma.application.vo.ventaproducto.VentaProductoVo;
-import com.plataforma.domain.entities.Venta;
 import com.plataforma.domain.entities.VentaProducto;
 import com.plataforma.infrastructure.repository.IVentaProductoRepository;
 import com.plataforma.infrastructure.service.IVentaProductoIService;
@@ -33,7 +31,7 @@ public class VentaProductoIService implements IVentaProductoIService {
     @Override
     public Long postVentaProducto(VentaProductoVo ventaProductoVo){
         ModelMapper modelMapper = new ModelMapper();
-        VentaProducto ventaProducto  = (VentaProducto) modelMapper.map(ventaProductoVo, (Class)Venta.class);
+        VentaProducto ventaProducto  = (VentaProducto) modelMapper.map(ventaProductoVo, (Class)VentaProducto.class);
         ventaProducto.setFechaCreacion(LocalDateTime.now());
         ventaProducto.setFechaActualizacion(LocalDateTime.now());
         return ventaProductoRepository.insertVentaProducto(ventaProducto);
@@ -42,7 +40,7 @@ public class VentaProductoIService implements IVentaProductoIService {
     @Override
     public Long putVentaProducto(VentaProductoVo ventaProductoVo){
         ModelMapper modelMapper = new ModelMapper();
-        VentaProducto ventaProducto = (VentaProducto) modelMapper.map(ventaProductoVo, (Class)Venta.class);
+        VentaProducto ventaProducto = (VentaProducto) modelMapper.map(ventaProductoVo, (Class)VentaProducto.class);
         ventaProducto.setFechaActualizacion(LocalDateTime.now());
         return ventaProductoRepository.updateVentaProducto(ventaProducto);
     }

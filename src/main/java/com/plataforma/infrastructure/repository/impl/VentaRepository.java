@@ -9,8 +9,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.sql.PreparedStatement;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Repository
@@ -61,14 +66,20 @@ public class VentaRepository implements IVentaRepository {
     @Override
     public Long insertVenta(Venta venta) {
         try{
-            return (long) jdbcTemplate.update(insert,
-                    venta.getIdUsuario(),
-                    venta.getIdComprobante(),
-                    venta.getImpuesto(),
-                    venta.getTotal(),
-                    venta.getEstado(),
-                    venta.getFechaActualizacion(),
-                    venta.getFechaCreacion());
+            KeyHolder keyHolder = new GeneratedKeyHolder();
+            jdbcTemplate.update(connection -> {
+                        PreparedStatement ps = connection.prepareStatement(insert, new String[] {"id"});
+                        ps.setLong(1, venta.getIdUsuario());
+                        ps.setLong(2, venta.getIdComprobante());
+                        ps.setLong(3, venta.getImpuesto());
+                        ps.setLong(4, venta.getTotal());
+                        ps.setBoolean(5, venta.getEstado());
+                        ps.setTimestamp(6, Timestamp.valueOf(venta.getFechaActualizacion()));
+                        ps.setTimestamp(7, Timestamp.valueOf(venta.getFechaCreacion()));
+                        return ps;
+                    },
+                    keyHolder);
+            return keyHolder.getKey().longValue();
         }catch(Exception e){
             log.error("No fue posible insertar registro de venta en Base de Datos. " + e);
         }

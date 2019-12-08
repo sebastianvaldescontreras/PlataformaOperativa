@@ -8,9 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.jdbc.core.RowMapper;
+
+import java.sql.PreparedStatement;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Repository
@@ -61,12 +66,19 @@ public class PlataformaRepository implements IPlataformaRepository {
     @Override
     public Long insertPlataforma(Plataforma plataforma) {
         try{
-            return (long) jdbcTemplate.update(insert,
-                    plataforma.getNombre(),
-                    plataforma.getDescripcion(),
-                    plataforma.getEstado(),
-                    plataforma.getFechaActualizacion(),
-                    plataforma.getFechaCreacion());
+            KeyHolder keyHolder = new GeneratedKeyHolder();
+            jdbcTemplate.update(connection -> {
+                        PreparedStatement ps = connection.prepareStatement(insert, new String[] {"id"});
+                        ps.setString(1, plataforma.getNombre());
+                        ps.setString(2, plataforma.getDescripcion());
+                        ps.setBoolean(3, plataforma.getEstado());
+                        ps.setTimestamp(4, Timestamp.valueOf(plataforma.getFechaActualizacion()));
+                        ps.setTimestamp(5, Timestamp.valueOf(plataforma.getFechaCreacion()));
+
+                        return ps;
+                    },
+                    keyHolder);
+            return keyHolder.getKey().longValue();
         }catch(Exception e){
             log.error("No fue posible insertar registro de plataforma en Base de Datos. " + e);
         }

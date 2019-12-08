@@ -9,8 +9,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.sql.PreparedStatement;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Repository
@@ -61,12 +66,18 @@ public class PlataformaCategoriaRepository implements IPlataformaCategoriaReposi
     @Override
     public Long insertPlataformaCategoria(PlataformaCategoria plataformaCategoria) {
         try{
-            return (long) jdbcTemplate.update(insert,
-                    plataformaCategoria.getIdPlataforma(),
-                    plataformaCategoria.getIdCategoria(),
-                    plataformaCategoria.getEstado(),
-                    plataformaCategoria.getFechaActualizacion(),
-                    plataformaCategoria.getFechaCreacion());
+            KeyHolder keyHolder = new GeneratedKeyHolder();
+            jdbcTemplate.update(connection -> {
+                        PreparedStatement ps = connection.prepareStatement(insert, new String[] {"id"});
+                        ps.setLong(1, plataformaCategoria.getIdPlataforma());
+                        ps.setLong(2, plataformaCategoria.getIdCategoria());
+                        ps.setBoolean(3, plataformaCategoria.getEstado());
+                        ps.setTimestamp(4, Timestamp.valueOf(plataformaCategoria.getFechaActualizacion()));
+                        ps.setTimestamp(5, Timestamp.valueOf(plataformaCategoria.getFechaCreacion()));
+                        return ps;
+                    },
+                    keyHolder);
+            return keyHolder.getKey().longValue();
         }catch(Exception e){
             log.error("No fue posible insertar registro de plataformacategoria en Base de Datos. " + e);
         }

@@ -9,8 +9,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.sql.PreparedStatement;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Repository
@@ -61,13 +66,19 @@ public class ComprobanteRepository implements IComprobanteRepository {
     @Override
     public Long insertComprobante(Comprobante comprobante) {
         try{
-            return (long) jdbcTemplate.update(insert,
-                    comprobante.getTipo(),
-                    comprobante.getSerie(),
-                    comprobante.getNumero(),
-                    comprobante.getEstado(),
-                    comprobante.getFechaActualizacion(),
-                    comprobante.getFechaCreacion());
+            KeyHolder keyHolder = new GeneratedKeyHolder();
+            jdbcTemplate.update(connection -> {
+                        PreparedStatement ps = connection.prepareStatement(insert, new String[] {"id"});
+                        ps.setString(1, comprobante.getTipo());
+                        ps.setString(2, comprobante.getSerie());
+                        ps.setLong(3, comprobante.getNumero());
+                        ps.setBoolean(4, comprobante.getEstado());
+                        ps.setTimestamp(5, Timestamp.valueOf(comprobante.getFechaActualizacion()));
+                        ps.setTimestamp(6, Timestamp.valueOf(comprobante.getFechaCreacion()));
+                        return ps;
+                    },
+                    keyHolder);
+            return keyHolder.getKey().longValue();
         }catch(Exception e){
             log.error("No fue posible insertar registro de comprobante en Base de Datos. " + e);
         }

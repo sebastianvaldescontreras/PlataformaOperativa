@@ -1,9 +1,6 @@
 package com.plataforma.application.controller;
 
-import com.plataforma.application.service.IUsuarioService;
 import com.plataforma.application.service.impl.VentaService;
-import com.plataforma.application.vo.usuario.UsuarioRequestVo;
-import com.plataforma.application.vo.usuario.UsuarioResponseVo;
 import com.plataforma.application.vo.venta.VentaRequestVo;
 import com.plataforma.application.vo.venta.VentaResponseVo;
 import io.swagger.annotations.Api;

@@ -9,8 +9,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.sql.PreparedStatement;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Repository
@@ -61,19 +66,25 @@ public class UsuarioRepository implements IUsuarioRepository {
     @Override
     public Long insertUsuario(Usuario usuario) {
         try{
-            return (long) jdbcTemplate.update(insert,
-                    usuario.getIdrol(),
-                    usuario.getTipoDocumento(),
-                    usuario.getNumeroDocumento(),
-                    usuario.getNombre(),
-                    usuario.getApellido(),
-                    usuario.getDireccion(),
-                    usuario.getTelefono(),
-                    usuario.getEmail(),
-                    usuario.getClave(),
-                    usuario.getEstado(),
-                    usuario.getFechaActualizacion(),
-                    usuario.getFechaCreacion());
+            KeyHolder keyHolder = new GeneratedKeyHolder();
+            jdbcTemplate.update(connection -> {
+                        PreparedStatement ps = connection.prepareStatement(insert, new String[] {"id"});
+                        ps.setLong(1, usuario.getIdrol());
+                        ps.setString(2, usuario.getTipoDocumento());
+                        ps.setString(3, usuario.getNumeroDocumento());
+                        ps.setString(4, usuario.getNombre());
+                        ps.setString(5, usuario.getApellido());
+                        ps.setString(6, usuario.getDireccion());
+                        ps.setString(7, usuario.getTelefono());
+                        ps.setString(8, usuario.getEmail());
+                        ps.setString(9, usuario.getClave());
+                        ps.setBoolean(10, usuario.getEstado());
+                        ps.setTimestamp(11, Timestamp.valueOf(usuario.getFechaActualizacion()));
+                        ps.setTimestamp(12, Timestamp.valueOf(usuario.getFechaCreacion()));
+                        return ps;
+                    },
+                    keyHolder);
+            return keyHolder.getKey().longValue();
         }catch(Exception e){
             log.error("No fue posible insertar registro de usuario en Base de Datos. " + e);
         }
