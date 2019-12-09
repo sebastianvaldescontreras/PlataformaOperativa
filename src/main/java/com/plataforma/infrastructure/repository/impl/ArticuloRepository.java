@@ -9,8 +9,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.sql.PreparedStatement;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Repository
@@ -62,17 +67,23 @@ public class ArticuloRepository implements IArticuloRepository {
     @Override
     public Long insertArticulo(Articulo articulo) {
         try{
-            return (long) jdbcTemplate.update(insert,
-                    articulo.getIdCategoria(),
-                    articulo.getCodigo(),
-                    articulo.getNombre(),
-                    articulo.getPrecio(),
-                    articulo.getStock(),
-                    articulo.getDescripcion(),
-                    articulo.getImagen(),
-                    articulo.getEstado(),
-                    articulo.getFechaActualizacion(),
-                    articulo.getFechaCreacion());
+            KeyHolder keyHolder = new GeneratedKeyHolder();
+            jdbcTemplate.update(connection -> {
+                        PreparedStatement ps = connection.prepareStatement(insert, new String[] {"id"});
+                        ps.setLong(1, articulo.getIdCategoria());
+                        ps.setString(2, articulo.getCodigo());
+                        ps.setString(3, articulo.getNombre());
+                        ps.setLong(4, articulo.getPrecio());
+                        ps.setLong(5, articulo.getStock());
+                        ps.setString(6, articulo.getDescripcion());
+                        ps.setString(7, articulo.getImagen());
+                        ps.setBoolean(8, articulo.getEstado());
+                        ps.setTimestamp(9, Timestamp.valueOf(articulo.getFechaActualizacion()));
+                        ps.setTimestamp(10, Timestamp.valueOf(articulo.getFechaCreacion()));
+                        return ps;
+                    },
+                    keyHolder);
+            return keyHolder.getKey().longValue();
         }catch(Exception e){
             log.error("No fue posible insertar registro de articulo en Base de Datos. " + e);
         }

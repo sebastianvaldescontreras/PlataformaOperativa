@@ -5,7 +5,7 @@ spring:
   datasource:
     platform: postgres
     driverClassName: org.postgresql.Driver
-    url: 'jdbc:postgresql://localhost:5432/plataformaOperativa'
+    url: 'jdbc:postgresql://localhost:5432/plataformaoperativa'
     username: postgres
     password: Cuidate133
     tomcat:
@@ -33,3 +33,16 @@ swagger:
   showExtensions : false
   basePackage: 'com.plataforma.application.controller'
 
+#Configuracion Actuator
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    health:
+      sensitive: false
+  health:
+    db:
+      enabled: true
+    defaults:
+      enabled: true

@@ -9,8 +9,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.sql.PreparedStatement;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Repository
@@ -61,12 +66,18 @@ public class ArticuloProductoRepository implements IArticuloProductoRepository {
     @Override
     public Long insertArticuloProducto(ArticuloProducto articuloProducto) {
         try{
-            return (long) jdbcTemplate.update(insert,
-                    articuloProducto.getIdArticulo(),
-                    articuloProducto.getIdProducto(),
-                    articuloProducto.getEstado(),
-                    articuloProducto.getFechaActualizacion(),
-                    articuloProducto.getFechaCreacion());
+            KeyHolder keyHolder = new GeneratedKeyHolder();
+            jdbcTemplate.update(connection -> {
+                        PreparedStatement ps = connection.prepareStatement(insert, new String[] {"id"});
+                        ps.setLong(1, articuloProducto.getIdArticulo());
+                        ps.setLong(2, articuloProducto.getIdProducto());
+                        ps.setBoolean(3, articuloProducto.getEstado());
+                        ps.setTimestamp(4, Timestamp.valueOf(articuloProducto.getFechaActualizacion()));
+                        ps.setTimestamp(5, Timestamp.valueOf(articuloProducto.getFechaCreacion()));
+                        return ps;
+                    },
+                    keyHolder);
+            return keyHolder.getKey().longValue();
         }catch(Exception e){
             log.error("No fue posible insertar registro de articuloproducto en Base de Datos. " + e);
         }
